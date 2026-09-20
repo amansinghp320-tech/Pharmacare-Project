@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Management - PharmaCare</title>
+    <!-- Main stylesheet for layout and theme -->
+    <link rel="stylesheet" href="dashboard.css" />
+    <!-- Styles for the modal and form elements -->
+    <link rel="stylesheet" href="sales.css" />
+    <!-- Styles specific to this page -->
+    <link rel="stylesheet" href="customers.css" />
+    <!-- Google Fonts for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <span class="material-symbols-outlined">medical_services</span>
+          <h2>PharmaCare</h2>
+        </div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.html"
+              ><span class="material-symbols-outlined">dashboard</span>
+              Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="inventory.html"
+              ><span class="material-symbols-outlined">inventory_2</span>
+              Inventory</a
+            >
+          </li>
+          <li>
+            <a href="sales.html"
+              ><span class="material-symbols-outlined">point_of_sale</span>
+              Sales</a
+            >
+          </li>
+          <li class="active">
+            <a href="customers.html"
+              ><span class="material-symbols-outlined">group</span> Customers</a
+            >
+          </li>
+          <li>
+            <a href="suppliers.html"
+              ><span class="material-symbols-outlined">local_shipping</span>
+              Suppliers</a
+            >
+          </li>
+          <li>
+            <a href="settings.html"
+              ><span class="material-symbols-outlined">settings</span>
+              Settings</a
+            >
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Page Header -->
+        <header class="main-header">
+          <h1>Customer Management</h1>
+          <div class="header-actions">
+            <input
+              type="text"
+              id="searchCustomerInput"
+              placeholder="Search by name or phone..."
+            />
+            <button class="add-new-btn" id="add-customer-btn">
+              + Add Customer
+            </button>
+          </div>
+        </header>
+
+        <!-- Customer Table Section -->
+        <section class="customer-table-section">
+          <table id="customer-table" class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="customer-table-body">
+              <!-- Customer rows will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <!-- Modal for Adding and Editing Customers -->
+    <div id="customer-modal" class="modal">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 id="modal-title">Add New Customer</h2>
+          <span class="close-button">&times;</span>
+        </header>
+        <form id="customer-form">
+          <input type="hidden" id="customerId" />
+
+          <div class="form-group">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              placeholder="e.g., 555-0201"
+              required
+            />
+          </div>
+
+          <button type="submit" class="submit-btn">Save Customer</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="customers.js"></script>
+  </body>
+</html>

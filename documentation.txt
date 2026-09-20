@@ -1,0 +1,118 @@
+Project Documentation: Medical Store Management System
+This document provides an overview of the database schema and the frontend dashboard application for the Medical Store Management System.
+
+1. Database Documentation (database_schema.sql)
+This SQL script sets up the entire database structure required for the application. It defines the tables, their columns, and the relationships between them.
+
+1.1. Schema Overview
+The database is designed to be relational, ensuring data integrity and minimizing redundancy. It consists of six main tables:
+
+Suppliers: Manages supplier information.
+Medicines: A master list of all medicine types.
+Inventory: Tracks stock levels, pricing, and expiry for specific batches of medicines.
+Customers: Stores customer details for sales records.
+Sales: Records each sales transaction.
+SalesItems: A junction table that details which items were sold in each transaction.
+1.2. Table-by-Table Breakdown
+Suppliers
+
+Purpose: To store contact and identification details for all medicine suppliers.
+Columns:
+SupplierID (Primary Key): A unique identifier for each supplier.
+SupplierName: The name of the supplier company.
+ContactPerson: The name of the primary contact at the company.
+PhoneNumber: The supplier's phone number.
+Email: The supplier's email address.
+Medicines
+
+Purpose: To maintain a central catalog of every unique medicine available, independent of its stock level or batch.
+Columns:
+MedicineID (Primary Key): A unique identifier for each type of medicine.
+MedicineName: The name of the medicine (e.g., "Paracetamol 500mg"). This is a unique field.
+Description: A brief description of the medicine's use.
+Category: The category the medicine belongs to (e.g., "Painkiller", "Antibiotic").
+Inventory
+
+Purpose: This is the core operational table. It tracks every batch of medicine currently in stock.
+Columns:
+StockID (Primary Key): A unique identifier for a specific batch of a medicine.
+MedicineID (Foreign Key): Links to the Medicines table to identify which medicine this batch is.
+SupplierID (Foreign Key): Links to the Suppliers table to identify who supplied this batch.
+BatchNumber: The manufacturer's batch number for this stock.
+PurchasePrice: The cost per unit when bought from the supplier.
+SellingPrice: The price per unit for the customer.
+Quantity: The current number of units available in this batch.
+ExpiryDate: The expiration date of this batch.
+Customers
+
+Purpose: To store information about customers. This is optional for a sale but allows for tracking customer history.
+Columns:
+CustomerID (Primary Key): A unique identifier for each customer.
+CustomerName: The customer's name.
+PhoneNumber: The customer's phone number.
+Sales
+
+Purpose: To record the header information for each sales transaction.
+Columns:
+SaleID (Primary Key): A unique identifier for each sale.
+CustomerID (Foreign Key): Links to the Customers table if the customer is known.
+SaleDate: The timestamp of when the sale occurred.
+TotalAmount: The total value of the transaction.
+SalesItems
+
+Purpose: To link the Sales and Inventory tables. It records each line item within a single sale.
+Columns:
+SaleItemID (Primary Key): A unique identifier for the sale line item.
+SaleID (Foreign Key): Links to the Sales table to associate this item with a specific sale.
+StockID (Foreign Key): Links to the Inventory table to identify which specific batch was sold.
+QuantitySold: The number of units sold in this line item.
+PricePerUnit: The price of the item at the time of sale.
+2. Frontend Web Application Documentation
+The frontend provides a user-friendly dashboard to visualize and interact with the data from the database. It is built with standard web technologies: HTML, CSS, and JavaScript.
+
+2.1. dashboard.html
+Purpose: This file defines the structure and layout of the web page. It uses semantic HTML5 tags for better readability and accessibility.
+Key Sections:
+<head>: Contains metadata, the page title, and links to the dashboard.css stylesheet and Google's Material Icons library.
+<aside class="sidebar">: The left-hand navigation menu. It includes the application logo ("PharmaCare") and links to different sections like Dashboard, Inventory, Sales, etc.
+<main class="main-content">: The main content area of the page.
+<header>: Contains the main page title ("Dashboard") and header actions, including a search input (#searchInput) and an "Add New Medicine" button.
+<section class="summary-cards">: A grid of three "cards" that display key metrics: Total Medicines, Low Stock Items, and Expired Items. The values in these cards are populated by JavaScript.
+<section class="inventory-table-section">: Displays the main inventory data in a structured table (#inventory-table). The table body (#inventory-table-body) is dynamically populated by JavaScript.
+<script src="dashboard.js">: The link to the JavaScript file, placed at the end of the <body> to ensure the HTML is fully loaded before the script runs.
+2.2. dashboard.css
+Purpose: This file provides all the styling for the dashboard, making it visually appealing and professional.
+Key Features:
+CSS Variables (:root): Defines a central color palette (--primary-color, --secondary-color, etc.) for easy theme management and consistency.
+Global Styles (*): A reset that sets a consistent box-sizing model and a default font (Poppins).
+Layout (.container, .sidebar, .main-content): Uses Flexbox to create the main two-column layout. The sidebar is position: fixed to remain visible while scrolling.
+Component Styling: Contains specific styles for all components seen in the HTML, including:
+.sidebar-menu: Styles for the navigation links, including hover and active states.
+.summary-cards & .card: Uses CSS Grid for a responsive card layout and styles the individual cards with shadows and icons.
+.inventory-table-section & #inventory-table: Styles the table for readability with proper padding and borders.
+.status: Defines colored status tags (.in-stock, .low-stock, .expired) to provide quick visual cues about the inventory status.
+2.3. dashboard.js
+Purpose: This file contains the client-side logic that makes the dashboard interactive and dynamic.
+Execution Flow:
+DOMContentLoaded Event Listener: The entire script is wrapped in this event listener to ensure it only runs after the HTML page has been fully parsed.
+Mock Data: A mockInventoryData array is defined to simulate data that would normally be fetched from a backend API. This allows for frontend development and testing without a live backend.
+DOM Element Selection: Key HTML elements that need to be manipulated (cards, table body, search input) are selected and stored in constants.
+initializeDashboard(): This is the main function that kicks everything off. It calls populateTable() and updateSummaryCards() to fill the page with the initial data.
+Core Functions:
+populateTable(data):
+Clears the existing content of the table body.
+Iterates through the provided data array.
+For each item, it calls getStatus() to determine its status.
+It then constructs an HTML table row (<tr>) as a template literal with the item's data and appends it to the table body.
+updateSummaryCards(data):
+Calculates the required metrics (total unique medicines, low stock count, expired count) by filtering and mapping the data array.
+Updates the text content of the summary card elements with the calculated values.
+getStatus(item):
+A helper function that takes a medicine item as input.
+It checks the item's expiryDate and quantity against the current date and the LOW_STOCK_THRESHOLD.
+It returns an object containing the status text (e.g., "Expired") and a corresponding CSS class name (.expired) for styling.
+handleSearch():
+This function is triggered by the input event on the search bar.
+It gets the search term, converts it to lowercase, and filters the master mockInventoryData array.
+It finds items where the medicine name or batch number includes the search term.
+Finally, it calls populateTable() with the filtered data to update the view.

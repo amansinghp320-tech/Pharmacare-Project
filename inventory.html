@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Management - PharmaCare</title>
+    <!-- Main stylesheet for layout and theme -->
+    <link rel="stylesheet" href="dashboard.css" />
+    <!-- Styles specific to the inventory page (e.g., action buttons) -->
+    <link rel="stylesheet" href="inventory.css" />
+    <!-- Styles for the modal and form elements, shared with sales page -->
+    <link rel="stylesheet" href="sales.css" />
+    <!-- Google Fonts for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <span class="material-symbols-outlined">medical_services</span>
+          <h2>PharmaCare</h2>
+        </div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.html"
+              ><span class="material-symbols-outlined">dashboard</span>
+              Dashboard</a
+            >
+          </li>
+          <li class="active">
+            <a href="inventory.html"
+              ><span class="material-symbols-outlined">inventory_2</span>
+              Inventory</a
+            >
+          </li>
+          <li>
+            <a href="sales.html"
+              ><span class="material-symbols-outlined">point_of_sale</span>
+              Sales</a
+            >
+          </li>
+          <li>
+            <a href="customers.html"
+              ><span class="material-symbols-outlined">group</span> Customers</a
+            >
+          </li>
+          <li>
+            <a href="suppliers.html"
+              ><span class="material-symbols-outlined">local_shipping</span>
+              Suppliers</a
+            >
+          </li>
+          <li>
+            <a href="settings.html"
+              ><span class="material-symbols-outlined">settings</span>
+              Settings</a
+            >
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Page Header -->
+        <header class="main-header">
+          <h1>Inventory Management</h1>
+          <div class="header-actions">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search inventory..."
+            />
+            <button class="add-new-btn" id="add-stock-btn">+ Add Stock</button>
+          </div>
+        </header>
+
+        <!-- Inventory Table Section -->
+        <section class="inventory-table-section">
+          <table id="inventory-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Medicine Name</th>
+                <th>Batch No.</th>
+                <th>Quantity</th>
+                <th>Selling Price</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-table-body">
+              <!-- Inventory rows will be dynamically inserted here by inventory.js -->
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <!-- Modal for Adding and Editing Stock -->
+    <div id="stock-modal" class="modal">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 id="modal-title">Add New Stock</h2>
+          <span class="close-button">&times;</span>
+        </header>
+        <form id="stock-form">
+          <!-- Hidden input to store the stockId when in 'edit' mode -->
+          <input type="hidden" id="stockId" />
+
+          <div class="form-group">
+            <label for="medicineName">Medicine Name</label>
+            <input type="text" id="medicineName" required />
+          </div>
+
+          <div class="form-group">
+            <label for="batchNumber">Batch No.</label>
+            <input type="text" id="batchNumber" required />
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" required />
+          </div>
+
+          <div class="form-group">
+            <label for="sellingPrice">Selling Price</label>
+            <input type="number" id="sellingPrice" step="0.01" required />
+          </div>
+
+          <div class="form-group">
+            <label for="expiryDate">Expiry Date</label>
+            <input type="date" id="expiryDate" required />
+          </div>
+
+          <!-- This status dropdown is shown only when editing an existing item -->
+          <div class="form-group" id="status-group" style="display: none">
+            <label for="status">Status</label>
+            <select id="status-select">
+              <option value="in-stock">In Stock</option>
+              <option value="low-stock">Low Stock</option>
+            </select>
+          </div>
+
+          <button type="submit" class="submit-btn" id="save-stock-btn">
+            Save Stock
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Link to the JavaScript file that powers this page's interactivity -->
+    <script src="inventory.js"></script>
+  </body>
+</html>
